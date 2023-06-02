@@ -1,0 +1,78 @@
+﻿@model models.Schadule
+
+@{
+    ViewData["Title"] = "EditSchadule";
+
+}
+<div class="page-header">
+    <div class="row">
+        <div class="col">
+            <h3 class="page-title">List of schadules</h3>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item">Dashboard</li>
+                <li class="breadcrumb-item active"><a asp-action="AllSchadules">Schadule</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="row justify-content-around mt-2">
+    <div class="col-xl-8 d-flex">
+        <div class="card flex-fill">
+            <div class="card-header">
+                <h4 class="card-title">
+                    Edit Schadule
+                </h4>
+            </div>
+            <div class="card-body">
+                <form asp-action="EditSchadule" asp-route-schadule="@Model.ID">
+                    <input value="@Model.ID" hidden />
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group row">
+                        <label class="col-lg-3 col-form-label">Clinic</label>
+                        <div class="col-lg-9">
+                            <input value="@Model.Clinic.Name" class="form-control" disabled />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label  class="col-lg-3 col-form-label">Date</label>
+                        <div class="col-lg-9">
+                            <input value="@Model.date" class="form-control" disabled/>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="starttime" class="col-lg-3 col-form-label"></label>
+                        <div class="col-lg-9">
+                            <input asp-for="starttime" class="form-control" />
+                            <span asp-validation-for="starttime" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="endtime" class="col-lg-3 col-form-label"></label>
+                        <div class="col-lg-9">
+                            <input asp-for="endtime" class="form-control" />
+                            <span asp-validation-for="endtime" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="duration" class="col-lg-3 col-form-label"></label>
+                        <div class="col-lg-9">
+                            <input asp-for="duration" class="form-control" />
+                            <span asp-validation-for="duration" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,87 @@
+﻿@page
+@model LoginModel
+
+@{
+    ViewData["Title"] = "Log in";
+}
+<div class="content">
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+
+                <!-- Login Tab Content -->
+                <div class="account-content">
+                    <div class="row align-items-center justify-content-center">
+                        <div class="col-md-7 col-lg-6 login-left">
+                            <img src="~/images/login-banner.png" class="img-fluid" alt="Doccure Login">
+                        </div>
+                        <div class="col-md-12 col-lg-6 login-right">
+                            <div class="login-header">
+                                <h3>Login <span>Doccure</span></h3>
+                            </div>
+                            <form id="account" method="post">
+
+                                <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+                                <div class="form-group form-focus">
+                                    <input asp-for="Input.Email" class="form-control floating" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                                    <label asp-for="Input.Email" class="focus-label">Email</label>
+                                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                                </div>
+                                <div class="form-group form-focus">
+                                    <input asp-for="Input.Password" class="form-control floating" autocomplete="current-password" aria-required="true" placeholder="password" />
+                                    <label asp-for="Input.Password" class="focus-label">Password</label>
+                                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                                </div>
+                                <div class="checkbox mb-3">
+                                    <label asp-for="Input.RememberMe" class="focus-label">
+                                        <input class="form-check-input" asp-for="Input.RememberMe" />
+                                        @Html.DisplayNameFor(m => m.Input.RememberMe)
+                                    </label>
+                                </div>
+                                <div class="text-right">
+                                    <a class="forgot-link" id="forgot-password" asp-area="Identity" asp-page="/Account/ForgotPassword">Forgot Password ?</a>
+                                </div>
+                                <button id="login-submit" type="submit" class="btn btn-primary btn-block btn-lg login-btn">Log in</button>
+                                <div class="login-or">
+                                    <span class="or-line"></span>
+                                    <span class="span-or">or</span>
+                                </div>
+                                <div class="row form-row social-login">
+                                    @{
+                                        if ((Model.ExternalLogins?.Count ?? 0) != 0)
+                                        {
+                                            <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+                                                <div>
+                                                    <p>
+                                                        @foreach (var provider in Model.ExternalLogins!)
+                                                        {
+                                                            <div class="col-6">
+                                                                <a href="http://localhost:5265/signin-google" type="submit" class="btn btn-facebook btn-block" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">
+                                                                    <i class="fab fa-@provider.DisplayName-f mr-1"></i>
+                                                                    @provider.DisplayName
+                                                                </a>
+                                                            </div>
+                                                        }
+                                                    </p>
+                                                </div>
+                                            </form>
+                                        }
+                                    }
+                                </div>
+                                <div class="text-center dont-have">Don’t have an account? <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register</a></div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- /Login Tab Content -->
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

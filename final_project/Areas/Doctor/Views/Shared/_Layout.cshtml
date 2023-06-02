@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/css/homestyle.css">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/font-awesome/css/all.css" />
+    <link rel="stylesheet" href="~/lib/font-awesome/css/solid.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/doctor.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/Style.css" asp-append-version="true" />
+    <link rel="shortcut icon" type="image/x-icon" href="~/images/favicon.png">
+</head>
+<body>
+    <div class="main-wrapper" style="background-color:#bacddd1f;">
+        <div class="header">
+            <div class="header-left">
+                <a asp-action="Index" asp-area="" asp-controller="Home" class="logo">
+                    <img src="~/images/logo.png" alt="Logo">
+                </a>
+                <a asp-action="Index" asp-area="" asp-controller="Home" class="logo logo-small">
+                    <img src="~/images/favicon.png" alt="Logo" width="30" height="30">
+                </a>
+            </div>
+
+            <a href="javascript:void(0);" id="toggle_btn">
+                <i class="fa-solid fa-bars-staggered"></i>
+            </a>
+            <a class="mobile_btn" id="mobile_btn">
+                <i class="fas fa-bars"></i>
+            </a>
+
+            <ul class="nav user-menu">
+                <li class="nav-item dropdown has-arrow">
+                    <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown"></a>
+                    <div class="dropdown-menu">
+                        <div class="user-header">
+                            <div class="user-text">
+                                <h6>Seema Sisty</h6>
+                                <p class="text-muted mb-0">Administrator</p>
+                            </div>
+                        </div>
+                        <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                            <button id="logout" type="submit" class="nav-link btn btn-link text-dark border-0">Logout</button>
+                        </form>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-inner slimscroll">
+                <div id="sidebar-menu" class="sidebar-menu">
+                    <ul>
+                        <li class="active">
+                            <a asp-area="Doctor" asp-controller="Home" asp-action="Details"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
+                        </li>
+                        <li>
+                            <a asp-area="Doctor" asp-controller="Clinic" asp-action="ViewClincs"><i class="fas fa-clinic-medical"></i> <span> Clinics</span></a>
+                        </li>
+                        <li>
+                            <a asp-area="Doctor" asp-controller="Schadule" asp-action="AllSchadules"><i class="fas fa-clock"></i> <span> Schadule</span></a>
+                        </li>
+                        <li>
+                            <a asp-area="Doctor" asp-controller="Reservations" asp-action="Reservation"><i class="fas fa-calendar"></i> <span> Reservations </span></a>
+                        </li>
+                        <li>
+                            <a id="set-password" asp-area="Identity" asp-page="/Account/Manage/SetPassword"><i class="fas fa-lock"></i> <span> Password&Email </span></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="page-wrapper">
+            <div class="content container-fluid">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/script.js"></script>
+        @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

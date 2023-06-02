@@ -1,0 +1,148 @@
+﻿@model models.Doctor;
+@using models;
+@{
+    ViewData["Title"] = "Profile";
+    List<Clinic> clinic = ViewBag.clinic;
+    List<Feedback> feedbacks = ViewBag.feedback;
+}
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="card mb-4">
+                    <div class="card-body text-center">
+                        <div>
+                            @if (@Model.Image != null)
+                            {
+                                <img src="~/uploads/@Model.Image" alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
+
+                            }
+                            else
+                            {
+                                <img src="~/uploads/1.png" alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
+
+                            }
+                            <form asp-action="ChangePhoto" enctype="multipart/form-data">
+                                <input type="hidden" asp-for="ID" />
+                                <div class="form-group">
+                                    <label asp-for="imageFile" class="doc-edit-btn"><i class="fas fa-pen-square" style="color:green"></i></label>
+                                    <input asp-for="imageFile" type="file" hidden name="imageFile" class="form-control" oninput="submit()"/>
+                                </div>
+                            </form>
+                        </div>
+
+                        <h5 class="my-3">@Model.user.UserName</h5>
+                        <p class="text-muted mb-1">@Model.Department.Name</p>
+                    </div>
+                </div>
+                <div class="card mb-4 mb-lg-0">
+                    <div class="card-body p-0">
+                        <ul class="list-group list-group-flush rounded-3">
+                            @for (int i = 0; i < clinic.Count(); i++)
+                            {
+                                <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                                    <i class="fas fa-clinic-medical fa-lg" style="color: #55acee;">
+                                    </i>
+                                    <p>
+                                        @clinic[i].Name
+                                    </p>
+                                </li>
+                            }
+                            @if (clinic.Count() == 0)
+                            {
+                                <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                                    <p class="mb-0 text-center">No Clinic</p>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h6 class="card-title">Personal Info</h6>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Name</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p class="text-muted mb-0">@Model.user.FirstName @Model.user.LastName</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Gender</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p class="text-muted mb-0">@Model.user.Gender</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Phone</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p class="text-muted mb-0">@Model.user.PhoneNumber</p>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Email</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p class="text-muted mb-0">@Model.user.Email</p>
+                            </div>
+                        </div>
+                        <a asp-action="Edit" class="doc-edit-btn"><i class="fas fa-pen-to-square" style="color:green"></i></a>
+                    </div>
+                </div>
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div>
+                            <p class="mb-4"><span class="text-primary font-italic me-1">Title</span>@Model.Title.Title</p>
+                        </div>
+                        <div>
+                            <p class="mb-1 ">About</p>
+                            <div class="progress rounded">
+                                <p class="doc-about">@Model.about</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card mb-4 doc-review review-listing">
+                    <ul class="comments-list">
+                        <li class="p-1 m-0">
+                            <h4 class="text-primary font-italic bg-white">FeedBack</h4>
+                        </li>
+                        @foreach (var item in feedbacks)
+                        {
+                            <li>
+                                <div class="comment">
+                                    <img class="avatar rounded-circle" alt="User Image" src="~/uploads/1.png">
+                                    <div class="comment-body">
+                                        <div class="meta-data">
+                                            <span class="comment-author">@item.patient.user.FirstName @item.patient.user.LastName</span>
+                                            <div class="review-count rating">
+                                                @for (int i = 0; i < int.Parse(@item.Rate); i++)
+                                                {
+                                                    <i class="fas fa-star filled"></i>
+                                                }
+                                            </div>
+                                        </div>
+                                        <p class="comment-content">
+                                            @item.Comment
+                                        </p>
+                                    </div>
+                                </div>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

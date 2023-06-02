@@ -1,0 +1,162 @@
+﻿@model IEnumerable<models.Patient>
+@{
+	List<int> counts = ViewBag.counts;
+}
+		<div class="page-header">
+			<div class="row">
+				<div class="col-sm-12">
+					<h3 class="page-title">Welcome Admin!</h3>
+					<ul class="breadcrumb">
+						<li class="breadcrumb-item active">Dashboard</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<!-- /Page Header -->
+		<div class="row">
+			<div class="col-xl-3 col-sm-6 col-12">
+				<div class="card">
+					<div class="card-body">
+						<div class="dash-widget-header">
+							<span class="dash-widget-icon text-primary border-primary">
+								<i class="fas fa-users"></i>
+							</span>
+							<div class="dash-count">
+								<h3>@counts[0]</h3>
+							</div>
+						</div>
+						<div class="dash-widget-info">
+							<h6 class="text-muted">Doctors</h6>
+							<div class="progress progress-sm">
+								<div class="progress-bar bg-primary w-50"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xl-3 col-sm-6 col-12">
+				<div class="card">
+					<div class="card-body">
+						<div class="dash-widget-header">
+							<span class="dash-widget-icon text-success">
+								<i class="fas fa-credit-card"></i>
+							</span>
+							<div class="dash-count">
+								<h3>@counts[1]</h3>
+							</div>
+						</div>
+						<div class="dash-widget-info">
+
+							<h6 class="text-muted">Patients</h6>
+							<div class="progress progress-sm">
+								<div class="progress-bar bg-success w-50"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xl-3 col-sm-6 col-12">
+				<div class="card">
+					<div class="card-body">
+						<div class="dash-widget-header">
+							<span class="dash-widget-icon text-danger border-danger">
+								<i class="fas fa-folder"></i>
+							</span>
+							<div class="dash-count">
+								<h3>@counts[2]</h3>
+							</div>
+						</div>
+						<div class="dash-widget-info">
+
+							<h6 class="text-muted">Done Appointment</h6>
+							<div class="progress progress-sm">
+								<div class="progress-bar bg-danger w-50"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xl-3 col-sm-6 col-12">
+				<div class="card">
+					<div class="card-body">
+						<div class="dash-widget-header">
+							<span class="dash-widget-icon text-warning border-warning">
+								<i class="fas fa-folder"></i>
+							</span>
+							<div class="dash-count">
+								<h3>@counts[3]</h3>
+							</div>
+						</div>
+						<div class="dash-widget-info">
+
+							<h6 class="text-muted">All Appointments</h6>
+							<div class="progress progress-sm">
+								<div class="progress-bar bg-warning w-50"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+<div class="row">
+	<div class="col-sm-12">
+		<div class="card">
+			<div class="card-body">
+				<div class="table-responsive">
+					<div class="table-responsive">
+						<table class="datatable table table-hover table-center mb-0">
+							<thead>
+								<tr>
+									<th>
+										@Html.DisplayNameFor(model => model.ID)
+									</th>
+									<th>
+										@Html.DisplayNameFor(model => model.user.UserName)
+									</th>
+									<th>
+										Name
+									</th>
+									<th>
+										@Html.DisplayNameFor(model => model.user.Gender)
+									</th>
+									<th>
+										@Html.DisplayNameFor(model => model.user.PhoneNumber)
+									</th>
+									<th>
+										@Html.DisplayNameFor(model => model.user.Email)
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								@foreach (var item in Model)
+								{
+									<tr>
+										<td>
+											@Html.DisplayFor(modelItem => item.ID)
+										</td>
+										<td>
+											@Html.DisplayFor(model => item.user.UserName)
+										</td>
+										<td>
+											@Html.DisplayFor(modelItem => item.user.FirstName) @Html.DisplayFor(modelItem => item.user.LastName)
+										</td>
+										<td>
+											@Html.DisplayFor(modelItem => item.user.Gender)
+										</td>
+										<td>
+											@Html.DisplayFor(modelItem => item.user.PhoneNumber)
+										</td>
+										<td>
+											@Html.DisplayFor(modelItem => item.user.Email)
+										</td>
+									</tr>
+								}
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

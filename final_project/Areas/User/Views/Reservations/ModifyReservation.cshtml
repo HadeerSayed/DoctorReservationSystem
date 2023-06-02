@@ -1,0 +1,64 @@
+﻿@model models.Appointment
+@Layout = "~/Views/_Layout.cshtml";
+
+@{
+    ViewData["Title"] = "MdifyReservation";
+    string date = ViewBag.date;
+    var clinic = ViewBag.clinicobj;
+    int appointment = ViewBag.appointment;
+}
+
+<div class="page-header">
+    <div class="row">
+        <div class="col">
+            <h3 class="page-title">Reservations</h3>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item">Dashboard</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="row justify-content-around">
+    <div class="col-md-7 col-4">
+        @using (Html.BeginForm("ModifyReservation", "Reservations", new {  @appointment=appointment }, FormMethod.Post, null, new { @class = "dateform" }))
+        {
+            <label>Date</label>
+            <input type="hidden" name="clinic" value="@clinic.ID" />
+            <input  type="date" value="@date" name="date" class="form-control" onchange="submit()"/>
+        }
+        <form asp-action="submitmodifyReservation"  asp-route-appointment="@appointment">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div>
+                <input type="hidden" asp-for="ID" />
+                <input type="hidden" asp-for="Date" value="@date" />
+                <input type="hidden" name="clinic" value="@clinic.ID" />
+                <input type="hidden" name="doctor" value="@clinic.Doctor.ID" />
+            </div>
+            <div class="form-group">
+                <label class="control-label">Doctor</label>
+                <label class="form-control">@clinic.Doctor.user.FirstName</label>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Clinic</label>
+                <label class="form-control">@clinic.Name</label>
+            </div>
+            <div class="form-group">
+                <label asp-for="Time" class="control-label"></label>
+                <select asp-for="Time" class="form-control" asp-items="@ViewBag.reservationlist"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+<script>
+    function submit() {
+        $(".dateform").submit();
+    }
+
+</script>
+}

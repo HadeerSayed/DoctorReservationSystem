@@ -1,0 +1,61 @@
+﻿@model models.Appointment
+
+@{
+    ViewData["Title"] = "SetReservation";
+    var clinic = ViewBag.clinic;
+    string today= ViewBag.date ;
+    SelectList reservationlist = ViewBag.reservationlist;
+}
+
+<div class="page-header">
+    <div class="row">
+        <div class="col">
+            <h3 class="page-title">Reservations</h3>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item">Dashboard</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="row justify-content-around">
+    <div class="col-md-7 col-4">
+        <form asp-action="SetReservation" asp-controller="Reservations" asp-area="User" asp-route-clinic="@clinic.ID">
+            <label class="control-label"></label>
+            <input type="date" name="Date" class="form-control" value="@today" onchange="submit()" />
+        </form>
+       @* @using (Html.BeginForm("SetReservation","", "Reservations", new { @patient = patient, @clinic = @clinic.ID }, FormMethod.Post))
+        {
+            <label class="control-label"></label>
+            <input type="date" name="Date" class="form-control" value="@today" onchange="submit()" />
+        }*@
+        <form asp-action="submitReservation" asp-area="User" asp-controller="Reservations" asp-route-clinic = "@clinic.ID">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Date" value="@today"/>
+            <input type="hidden" name="doctor" value="@clinic.Doctor.ID" />
+            <div class="form-group">
+                <label class="control-label">Doctor</label>
+                <label class ="form-control">@clinic.Doctor.user.FirstName</label>
+            </div>
+            <div class="form-group">
+                <label  class="control-label">Clinic</label>
+                <label class ="form-control">@clinic.Name</label>
+            </div>
+            <div class="form-group">
+                <label asp-for="Time" class="control-label"></label>
+                <select asp-for="Time" class="form-control" asp-items="@reservationlist"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    function submit() {
+        $(".dateform").submit();
+    }
+
+</script>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

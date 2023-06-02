@@ -1,0 +1,102 @@
+﻿@model models.dclinic
+
+@{
+	ViewData["Title"] = "DetailsDoctor";
+}
+<div class="page-header">
+	<div class="row">
+		<div class="col">
+			<h3 class="page-title">Details Doctor</h3>
+			<ul class="breadcrumb">
+				<li class="breadcrumb-item">Dashboard</li>
+				<li class="breadcrumb-item active"><a asp-action="AllDoctors">Doctors</a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-12">
+		<div class="profile-header">
+			<div class="row align-items-center">
+				<div class="col-auto profile-image">
+					@if (Model.doctor.Image != "")
+					{
+						<img src="~/uploads/@Model.doctor.Image" class="rounded-circle" alt="User Image">
+
+					}
+					else
+					{
+						<img src="~/uploads/1.png" class="rounded-circle" alt="User Image">
+
+					}
+				</div>
+				<div class="col ml-md-n2 profile-user-info">
+					<h4 class="user-name mb-0"> @Html.DisplayFor(model => model.doctor.user.FirstName)  @Html.DisplayFor(model => model.doctor.user.LastName)</h4>
+					<h6 class="text-muted">@Html.DisplayFor(model => model.doctor.Title.Title)</h6>
+					<div class="user-Location"><i class="fas fa-ticket-simple"></i> @Html.DisplayFor(model => model.doctor.Department.Name)</div>
+					<div class="about-text">@Html.DisplayFor(model => model.doctor.about)</div>
+				</div>
+			</div>
+		</div>
+		<div class="tab-content profile-tab-cont">
+
+			<!-- Personal Details Tab -->
+			<div class="tab-pane fade show active" id="per_details_tab">
+
+				<!-- Personal Details -->
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="card">
+							<div class="card-body">
+								<h5 class="card-title d-flex justify-content-between">
+									<span>Personal Details</span>
+								</h5>
+								<div class="row">
+									<p class="col-sm-2 text-muted text-sm-right mb-0 mb-sm-3">Name</p>
+									<p class="col-sm-10">@Html.DisplayFor(model => model.doctor.user.FirstName) @Html.DisplayFor(model => model.doctor.user.LastName)</p>
+								</div>
+								<div class="row">
+									<p class="col-sm-2 text-muted text-sm-right mb-0 mb-sm-3">Gender</p>
+									<p class="col-sm-10">@Html.DisplayFor(model => model.doctor.user.Gender)</p>
+								</div>
+								<div class="row">
+									<p class="col-sm-2 text-muted text-sm-right mb-0 mb-sm-3">Email ID</p>
+									<p class="col-sm-10">@Html.DisplayFor(model => model.doctor.user.Email)</p>
+								</div>
+								<div class="row">
+									<p class="col-sm-2 text-muted text-sm-right mb-0 mb-sm-3">Mobile</p>
+									<p class="col-sm-10">@Html.DisplayFor(model => model.doctor.user.PhoneNumber)</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	@foreach (var item in Model.clinic)
+	{
+		<div class="col-12 col-md-6 col-lg-4 d-flex">
+			<div class="card flex-fill">
+				<div class="card-header">
+					@Html.DisplayFor(modelItem => item.Name)
+				</div>
+				<div class="card-body">
+						<h5 class="card-title">
+							<i class="p-1 fas fa-phone"></i>@Html.DisplayFor(modelItem => item.Phone)<br />
+						</h5>
+						<p class="card-text">
+							<i class="p-1 fas fa-address-card"></i>@Html.DisplayFor(modelItem => item.country.Name)<br/>
+							<i class="p-1 fas fa-location"></i>@Html.DisplayFor(modelItem => item.Address)
+						</p>
+				</div>
+				<div class="card-footer text-muted">
+						<i class="p-1 fas fa-money"></i>@Html.DisplayFor(modelItem => item.cost)
+				</div>
+			</div>
+		</div>
+	}
+</div>

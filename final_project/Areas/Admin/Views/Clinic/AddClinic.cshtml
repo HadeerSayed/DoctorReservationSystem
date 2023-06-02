@@ -1,0 +1,63 @@
+﻿@model models.Clinic
+
+@{
+    ViewData["Title"] = "AddClinic";
+}
+
+<h1>AddClinic</h1>
+
+<h4>Clinic</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddClinic">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="DoctorId" class="control-label">Doctor</label>
+                <select asp-for="DoctorId" class ="form-control" asp-items="ViewBag.DoctorId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Phone" class="control-label"></label>
+                <input asp-for="Phone" class="form-control" />
+                <span asp-validation-for="Phone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address" class="control-label"></label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+  
+            <div class="form-group">
+                <label asp-for="cost" class="control-label"></label>
+                <input asp-for="cost" class="form-control" />
+                <span asp-validation-for="cost" class="text-danger"></span>
+            </div>
+   
+            <div class="form-group">
+                <label asp-for="countryid" class="control-label">Country</label>
+                <select asp-for="countryid" class ="form-control" asp-items="ViewBag.countryid"></select>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Longitude" class="control-label"></label>
+                <input asp-for="Longitude" class="form-control" />
+                <span asp-validation-for="Longitude" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

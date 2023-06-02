@@ -1,0 +1,237 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@using models;
+@{
+    ViewData["Title"] = "Profile";
+    List<Schadule> schadule = ViewBag.schadulelist;
+    Clinic clinic = ViewBag.clinic;
+    Doctor doctor = ViewBag.doctor;
+    List<Feedback> feedbacks =ViewBag.feedback;
+    int id = ViewBag.patient;
+}
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+<link rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+      integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
+      crossorigin="" />
+
+<section style="background-color: #eee;">
+    <div class="container py-5">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="card mb-4">
+                    <div class="card-body text-center">
+                        @if (doctor.Image != null)
+                        {
+                            <img src="~/uploads/@doctor.Image" alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
+
+                        }
+                        else
+                        {
+                            <img src="~/uploads/1.png" alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
+
+                        }
+                        <h5 class="my-3">@doctor.user.FirstName @doctor.user.LastName</h5>
+                        <p class="text-muted mb-1">@doctor.user.Gender</p>
+                        <p class="text-muted mb-4">@doctor.user.Email</p>
+                    </div>
+                </div>
+                <div class="card mb-4 mb-lg-0">
+                    <div class="card-body p-0">
+                        <ul class="list-group list-group-flush rounded-3">
+                            @for (int i = 0; i < @schadule.Count(); i++)
+                            {
+                                <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                                    <i class="fas fa-calendar fa-lg" style="color: #55acee;"></i>
+                                    @if (SignInManager.IsSignedIn(User))
+                                    {
+                                        @if (User.IsInRole("Patient"))
+                                        {
+                                            <a asp-action="SetReservation" asp-route-clinic="@clinic.ID" asp-area="User" asp-controller="Reservations">
+                                                <p class="mb-0">@schadule[i].date.Day -  @schadule[i].date.Month - @schadule[i].date.Year</p>
+                                            </a>
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        <p class="mb-0">@schadule[i].date.Day - @schadule[i].date.Month - @schadule[i].date.Year</p>
+                                    }
+                                </li>
+                            }
+                            @if (@schadule.Count()==0)
+                            {
+                                <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                                    <p class="mb-0 text-center">No Schadule</p>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card my-4 mb-lg-0">
+                    <div class="card-body p-0">
+                        <ul class="list-group list-group-flush rounded-3">
+                            <input value="@clinic.Longitude" name="maplatlng" id="maplatlng" hidden>
+                            <div class="map" id="mapid" style="height: 400px;"></div>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Clinic Name</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p class="text-muted mb-0">@clinic.Name</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Address</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p class="text-muted mb-0">@clinic.Address</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Phone</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p class="text-muted mb-0">@clinic.Phone</p>
+                            </div>
+                        </div>
+                        <hr/>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Cost</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p class="text-muted mb-0">@clinic.cost</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <p class="mb-4"><span class="text-primary font-italic me-1">Title</span>@doctor.Title.Title</p>
+                        <p class="mb-1" style="font-size: .77rem;">About</p>
+                        <div class="progress rounded">
+                            <p>@doctor.about</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card mb-4 doc-review review-listing" style="background-color: #eee;">
+					<ul class="comments-list">
+                        <li class="p-1 m-0">
+                            <h4 class="text-primary font-italic bg-white">FeedBack</h4>
+                        </li>
+                        @if (SignInManager.IsSignedIn(User))
+                            {
+                            @if (User.IsInRole("Patient"))
+                            {
+                                <li>
+                                    <div class="comment">
+                                        <img class="avatar rounded-circle" alt="User Image" src="~/uploads/1.png">
+                                        <div class="comment-body commentsection">
+                                            <form asp-action="setfeedback">
+                                                <input type="hidden" name="doctor" value="@doctor.ID" />
+                                                <input type="hidden" name="clinic" value="@clinic.ID" />
+                                                <div class="meta-data">
+                                                    <span class="comment-author">patient name</span>
+                                                    <div class="review-count rating">
+                                                        <label for="star1"><i class="fas fa-star"></i></label>
+                                                        <input class="star" id="star1" type="checkbox" name="rate" value="1" />
+                                                        <label for="star2"><i class="fas fa-star"></i></label>
+                                                        <input class="star" id="star2" type="checkbox" name="rate" value="2" />
+                                                        <label for="star3"><i class="fas fa-star"></i></label>
+                                                        <input class="star" id="star3" type="checkbox" name="rate" value="3" />
+                                                        <label for="star4"><i class="fas fa-star"></i></label>
+                                                        <input class="star" id="star4" type="checkbox" name="rate" value="4" />
+                                                        <label for="star5"><i class="fas fa-star"></i></label>
+                                                        <input class="star" id="star5" type="checkbox" name="rate" value="5" />
+                                                    </div>
+                                                </div>
+                                                <p class="comment-content">
+                                                    <textarea class="form-control" name="comment"></textarea>
+                                                </p>
+                                                <input type="submit" value="comment" class="btn btn-primary" />
+                                            </form>
+                                        </div>
+                                    </div>
+                                </li>
+                            }
+                        }
+                        
+                        @foreach(var item in feedbacks)
+                        {
+                            <li>
+                                <div class="comment">
+                                    <img class="avatar rounded-circle" alt="User Image" src="~/uploads/1.png">
+                                    <div class="comment-body">
+                                        <div class="meta-data">
+                                            <span class="comment-author">@item.patient.user.FirstName @item.patient.user.LastName</span>
+                                            <div class="review-count rating">
+                                                @for (int i = 0; i < int.Parse(@item.Rate); i++)
+                                                {
+                                                    <i class="fas fa-star filled"></i>
+                                                }
+                                            </div>
+                                        </div>
+                                        <p class="comment-content">
+                                            @item.Comment
+                                        </p>
+                                    </div>
+                                    @if (item.PatientId == id)
+                                    {
+                                        @if (User.IsInRole("Patient"))
+                                        {
+                                            <form asp-action="Delete" asp-route-id="@item.ID">
+                                                <input type="hidden" name="doctor" value="@doctor.ID" />
+                                                <input type="hidden" name="clinic" value="@clinic.ID" />
+                                                <label for="submit">
+                                                    <i class="fa fa-trash" color="red"></i>
+                                                </label>
+                                                <input id="submit" type="submit" value="" class="position-absolute" style="z-index:-2000">
+                                            </form>
+                                        }
+                                    }
+                                </div>
+                            </li>
+                        }
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<script type="text/javascript">
+    $("#star5").on("checked",function(){
+        $("#star4").prop("checked", true);
+        $("#star3").prop("checked", true);
+        $("#star2").prop("checked", true);
+        $("#star1").prop("checked", true);
+    });
+    $("#star4").on("checked", function () {
+        $("#star3").prop("checked", true);
+        $("#star2").prop("checked", true);
+        $("#star1").prop("checked", true);
+    });
+    $("#star3").on("checked", function () {
+        $("#star2").prop("checked", true);
+        $("#star1").prop("checked", true);
+    });
+    $("#star2").on("checked", function () {
+        $("#star1").prop("checked", true);
+    });
+</script>
+<script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+        integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
+        crossorigin=""></script>
+<script src="~/js/map.js" type="text/javascript"></script>

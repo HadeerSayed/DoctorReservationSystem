@@ -1,0 +1,41 @@
+﻿@model models.country
+
+@{
+    ViewData["Title"] = "Addcountry";
+    string mess = ViewBag.mess;
+}
+<div class="page-header">
+    <div class="row">
+        <div class="col">
+            <h3 class="page-title">Add country</h3>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item">Dashboard</li>
+                <li class="breadcrumb-item active"><a asp-action="AllCountrys">Counties</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Addcountry">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            @if (mess != null)
+            {
+                    <p class="alert alert-danger">@mess</p>
+            }
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

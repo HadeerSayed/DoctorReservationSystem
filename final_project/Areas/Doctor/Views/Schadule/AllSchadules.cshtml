@@ -1,0 +1,89 @@
+﻿@model IEnumerable<models.Schadule>
+
+@{
+    ViewData["Title"] = "AllSchadules";
+    SelectList clinics = ViewBag.clinics;
+}
+
+<div class="page-header">
+    <div class="row">
+        <div class="col">
+            <h3 class="page-title">All Schadules</h3>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item">Dashboard</li>
+            </ul>
+        </div>
+    </div>
+</div>
+@if(clinics!=null){
+    <p>
+        <a asp-action="SetSchadule" class="btn btn-warning">Create New</a>
+    </p>
+<div>
+    @using (Html.BeginForm("AllSchadules", "Schadule", FormMethod.Post, new { @class = "w-25" }))
+    {
+        @Html.Label("ID", "Clinic");
+        @Html.DropDownList("ID", clinics, new { @class = "form-control", onchange = @"form.submit()" });
+    }
+</div>
+}
+else
+{
+    <div>
+        <p class="alert alert-heading text-center">You Don't Have Clinic'</p>
+    </div>
+}
+@if(Model!=null){
+@if (Model.Count() > 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.date)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.starttime)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.endtime)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.duration)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.date)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.starttime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.endtime)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.duration)
+                    </td>
+                    <td>
+                        <a asp-action="EditSchadule" asp-route-schadule="@item.ID" class="btn btn-success">Edit</a>
+                        <a asp-action="DeleteSchadule" asp-route-schadule="@item.ID" class="btn btn-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+<div>
+    <p class="alert alert-heading text-center">Not Found</p>
+</div>    
+}
+}

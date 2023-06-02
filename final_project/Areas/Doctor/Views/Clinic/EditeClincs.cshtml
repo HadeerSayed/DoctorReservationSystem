@@ -1,0 +1,78 @@
+﻿@model models.Clinic
+
+@{
+    ViewData["Title"] = "EditeClincs";
+}
+<div class="page-header">
+    <div class="row">
+        <div class="col">
+            <h3 class="page-title">Clinic</h3>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item">Dashboard</li>
+                <li class="breadcrumb-item active"><a asp-action="ViewClincs">Clinics</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="row justify-content-around">
+    <div class="col-xl-8 d-flex">
+        <div class="card flex-fill">
+            <div class="card-header">
+                <h4 class="card-title">
+                    Edit Clinic
+                </h4>
+            </div>
+            <div class="card-body">
+                <form asp-action="EditeClincs">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="ID" />
+                <div class="form-group">
+                    <label asp-for="Name" class="col-lg-3 col-form-label"></label>
+                    <div class="col-lg-9">
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Phone" class="col-lg-3 col-form-label"></label>
+                    <div class="col-lg-9">
+                        <input asp-for="Phone" class="form-control" />
+                        <span asp-validation-for="Phone" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="countryid" class="col-lg-3 col-form-label"></label>
+                    <div class="col-lg-9">
+                        <input asp-for="countryid" class="form-control" />
+                        <span asp-validation-for="countryid" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Address" class="col-lg-3 col-form-label"></label>
+                    <div class="col-lg-9">
+                        <input asp-for="Address" class="form-control" />
+                        <span asp-validation-for="Address" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                     <label asp-for="cost" class="col-lg-3 col-form-label"></label>
+                     <div class="col-lg-9">
+                         <input asp-for="cost" class="form-control" />
+                         <span asp-validation-for="cost" class="text-danger"></span>
+                     </div>
+                </div>
+                <div class="form-group">
+                     <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

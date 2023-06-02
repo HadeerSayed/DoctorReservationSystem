@@ -1,0 +1,92 @@
+﻿@model models.Schadule
+
+@{
+    ViewData["Title"] = "SetSchadule";
+}
+<div class="page-header">
+    <div class="row">
+        <div class="col">
+            <h3 class="page-title">List Of Schadules</h3>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item">Dashboard</li>
+                <li class="breadcrumb-item active"><a asp-action="AllSchadules">Schadule</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="row justify-content-around mt-2">
+    <div class="col-xl-8 d-flex">
+        <div class="card flex-fill">
+            <div class="card-header">
+                <h4 class="card-title">
+                    Set Schadule
+                </h4>
+            </div>
+            <div class="card-body">
+                <form asp-action="SetSchadule" asp-route-doctor="@ViewBag.doctor">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group row">
+                        <label asp-for="Clinic" class="col-lg-3 col-form-label"></label>
+                        <div class="col-lg-9">
+                            <select asp-for="ClinicId" class="form-control" asp-items="ViewBag.clinics"></select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="date" class="col-lg-3 col-form-label"></label>
+                        <div class="col-lg-9">
+                            <input asp-for="date" class="form-control" />
+                            <span asp-validation-for="date" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="starttime" class="col-lg-3 col-form-label"></label>
+                        <div class="col-lg-9">
+                            <input asp-for="starttime" class="form-control" />
+                            <span asp-validation-for="starttime" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="endtime" class="col-lg-3 col-form-label"></label>
+                        <div class="col-lg-9">
+                            <input asp-for="endtime" class="form-control" />
+                            <span asp-validation-for="endtime" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="duration" class="col-lg-3 col-form-label"></label>
+                        <div class="col-lg-9">
+                            <input asp-for="duration" class="form-control" />
+                            <span asp-validation-for="duration" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (ViewBag.success == 1)
+{
+    <div class="alert alert-success w-50 m-auto">
+        schadule is added
+    </div>
+}
+@if (ViewBag.success == -1)
+{
+    <div class="alert alert-danger w-50 m-auto">
+        invalid data
+    </div>
+}
+@if (ViewBag.success == 2)
+{
+    <div class="alert alert-warning w-50 m-auto">
+        you added schadule for this date
+    </div>
+}
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

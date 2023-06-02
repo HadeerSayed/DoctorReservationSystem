@@ -1,0 +1,67 @@
+﻿@model IEnumerable<models.Clinic>
+
+@{
+    ViewData["Title"] = "ViewClincs";
+}
+<div class="page-header">
+    <div class="row justify-content-between">
+        <div class="col-md-4 col-sm-12">
+            <h3 class="page-title">List of Clinics</h3>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a>Dashboard</a></li>
+                <li class="breadcrumb-item active">clinics</li>
+            </ul>
+        </div>
+        <div class="col-md-4 col-sm-12">
+            <a class="btn" style="float:right;background-color:#70adcb;border-color:#70adcb" asp-action="ViewClincs">Clinics</a>
+        </div>
+    </div>
+</div>
+<!-- /Page Header -->
+@if (Model.Count() > 0)
+{
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="datatable table table-hover table-center mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Address</th>
+                                    <th>Country</th>
+                                    <th>Phone</th>
+                                    <th>Cost</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.Address)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.country.Name)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.Phone)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.cost)</td>
+                                        <td>
+                                            <a asp-action="EditeClincs" asp-route-id="@item.ID" class="btn btn-success">Edite</a>
+                                            <a asp-action="DeleteClincs" asp-route-id="@item.ID" class="btn btn-danger">Delete</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div>
+        <p class="alert alert-info">Not Found</p>
+    </div>
+}

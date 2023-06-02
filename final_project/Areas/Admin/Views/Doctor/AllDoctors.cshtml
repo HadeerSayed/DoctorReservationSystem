@@ -1,0 +1,74 @@
+﻿@model IEnumerable<models.Doctor>
+
+<div class="page-header">
+	<div class="row justify-content-between">
+		<div class="col-md-4 col-sm-12">
+			<h3 class="page-title">List of Doctors</h3>
+			<ul class="breadcrumb">
+				<li class="breadcrumb-item"><a>Dashboard</a></li>
+				<li class="breadcrumb-item active">Doctor</li>
+			</ul>
+		</div>
+		<div class="col-md-4 col-sm-12">
+			<a asp-action="CreateDoctor" class="btn" style="float:right;background-color:#70adcb;border-color:#70adcb">Add</a>
+		</div>
+	</div>
+</div>
+<!-- /Page Header -->
+@if(Model.Count()>0){
+<div class="row">
+	<div class="col-sm-12">
+		<div class="card">
+			<div class="card-body">
+				<div class="table-responsive">
+					<table class="datatable table table-hover table-center mb-0">
+						<thead>
+							<tr>
+								<th>Doctor Name</th>
+								<th>Gender</th>
+                                <th>Speciality</th>
+								<th>Email</th>
+								<th>Phone Number</th>
+								<th>Account Status</th>
+							</tr>
+						</thead>
+						<tbody>
+                            @foreach (var item in Model){
+							<tr>
+                                <td>
+                                    <h2 class="table-avatar">
+											<a asp-action="DetailsDoctor" asp-route-id="@item.ID" class="avatar avatar-sm mr-2"><img class="avatar-img rounded-circle" src="~/uploads/@item.Image" alt="User Image"></a>
+                                        <a asp-action="DetailsDoctor" asp-route-id="@item.ID">@Html.DisplayFor(modelItem => item.user.FirstName) @Html.DisplayFor(modelItem => item.user.LastName)</a>
+                                    </h2>
+                                </td>
+                                <td>@Html.DisplayFor(modelItem => item.user.Gender)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Department.Name)</td>
+                                <td>@Html.DisplayFor(modelItem => item.user.Email)</td>
+                                <td>@Html.DisplayFor(modelItem => item.user.PhoneNumber)</td>
+                                @if (item.user.EmailConfirmed)
+                                {
+                                    <td style="color:green">confirmed</td>
+                                }
+                                else
+                                {
+										<td style="color:red">not confirmed</td>
+                                }
+                                <td>
+                                    <a asp-action="DetailsDoctor" asp-route-id="@item.ID" class="btn btn-success">Show</a>
+                                    <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-danger">Delete</a>
+                                </td>
+                            </tr>
+                            }
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>			
+</div>
+}
+else{
+	<div>
+		<p class="alert alert-info">Not Found</p>
+	</div>
+}

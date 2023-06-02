@@ -1,0 +1,38 @@
+﻿@{
+    if (ViewData.TryGetValue("ParentLayout", out var parentLayout) && parentLayout !=  null)
+    {
+        Layout = parentLayout.ToString();
+    }
+    else
+    {
+        Layout = "/Areas/Identity/Pages/_Layout.cshtml";
+    }
+}
+@*<div>
+    <div class="row">
+        <div class="col-md-12 row">
+        </div>
+        <div class="col-md-12">
+           
+        </div>
+    </div>
+</div>*@
+
+<div class="row justify-content-around mt-2">
+    <div class="col-md-4 d-flex col-10">
+        <div class="card flex-fill">
+            <div class="card-header">
+                <h4 class="card-title">
+                    <partial name="_ManageNav" />
+                </h4>
+            </div>
+            <div class="card-body">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @RenderSection("Scripts", required: false)
+}

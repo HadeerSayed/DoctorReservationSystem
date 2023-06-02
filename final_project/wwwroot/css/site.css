@@ -1,0 +1,84 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+.w-90 {
+    width: 90% !important;
+}
+.h-150px {
+    height: 150px !important;
+}
+.h-200px, .w-200px {
+    height: 200px !important;
+}
+.h-130px, .w-130px {
+    height: 130px !important;
+}
+.m-23 {
+    margin: 23px;
+}
+.fw-500{
+    font-weight:500;
+}
+.fs-30{
+    font-size:30px !important;
+}
+.sub-footer {
+    width: fit-content;
+    float: right;
+    margin: 69px 20px;
+}
+.alert-light {
+    color: #edebeb;
+    background-color: #b8b3b3;
+    TEXT-ALIGN: CENTER;
+    border-color: #fdfdfe;
+}
+.timelist{
+    width:100%;
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:space-evenly;
+}
+.list{
+    width:250px;
+}
+    .timelist h6 {
+        background-color: lightblue;
+        color: white;
+        border-radius: 10px 10px 0 0;
+        margin: 0;
+        padding: 0.5rem 1rem;
+        text-align: center;
+    }
+.selectedtimelist {
+    width: 100%;
+    overflow: hidden;
+    text-align: center;
+    border: 0px 1px 1px 1px;
+    border-color: lightblue;
+}
+.selectedtimelist option{
+    padding:0.5rem;
+}
+.checktime input {
+    accent-color: red;
+}

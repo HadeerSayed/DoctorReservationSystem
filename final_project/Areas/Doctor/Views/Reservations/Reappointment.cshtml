@@ -1,0 +1,81 @@
+﻿@using models;
+@model models.Appointment
+
+@{
+    ViewData["Title"] = "Reappointment";
+    SelectList list = ViewBag.list;
+    SelectList slotlist =ViewBag.slot;
+    Patient p = ViewBag.patient;
+    var clinic=ViewBag.clinic;
+}
+<div class="page-header">
+    <div class="row">
+        <div class="col">
+            <h3 class="page-title">List of Reservations</h3>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item">Dashboard</li>
+                <li class="breadcrumb-item active"><a asp-action="Reservation">Reservation</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="row justify-content-around">
+    <div class="col-xl-8 d-flex">
+        <div class="card flex-fill">
+            <div class="card-header">
+                <h4 class="card-title">
+                    <form asp-controller="Reservations" asp-action="Reappointment" asp-area="Doctor">
+                        <input type="hidden" name="patient" value="@p.ID"/>
+                        <input type="hidden" name="clinic" value="@clinic"/>
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label">Date</label>
+                            <div class="col-lg-9">
+                                <select asp-items="list" class="form-control" name="ID" onchange="submit()"></select>
+                            </div>
+                        </div>
+                    </form>
+                </h4>
+            </div>
+            <div class="card-body">
+                <form asp-action="submitReappointment">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="PatientId" class="form-control" value="@p.ID" />
+                    <div class="form-group row">
+                        <label class="col-lg-3 col-form-label">First Name</label>
+                        <div class="col-lg-9">
+                            <input class="form-control" value="@p.user.FirstName" disabled/>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-lg-3 col-form-label">Last Name</label>
+                        <div class="col-lg-9">
+                            <input class="form-control" value="@p.user.LastName" disabled />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-lg-3 col-form-label">Phone Number</label>
+                        <div class="col-lg-9">
+                            <input class="form-control" value="@p.user.PhoneNumber" disabled />
+                        </div>
+                    </div>
+                    @if(list.Count()!=0){
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label">Time</label>
+                            <div class="col-lg-9">
+                                <select name="schid" class="form-control" asp-items="slotlist"></select>
+                            </div>
+                        </div>
+                    }
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,0 +1,151 @@
+﻿@using models;
+@model IEnumerable<models.searchresult>
+@using Microsoft.AspNetCore.Identity;
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@{
+	int prev = (int)ViewBag.currentpage-1;
+	int next = (int)ViewBag.currentpage + 1;
+	IFormCollection data=ViewBag.data ;
+
+}
+<div class="content">
+	<div class="container-fluid">
+			<div class="row">
+				<div class="col-md-12 col-lg-4 col-xl-3 theiaStickySidebar">
+
+					<!-- Search Filter -->
+				<form asp-action="AllDoctors" asp-controller="Home" class="card search-filter" asp-route-page="0">
+					@if (data != null)
+					{
+						<input value="@data["location"]" type="hidden" name="location" />
+						<input value="@data["doctor"]" type="hidden" name="doctor" />
+					}
+						<div class="card-header">
+							<h4 class="card-title mb-0">Search Filter</h4>
+						</div>
+						<div class="card-body">
+							<div class="filter-widget">
+								<h4>Gender</h4>
+								<div>
+									<select name="gender" class="form-control" aria-required="true" asp-items="@Html.GetEnumSelectList<models.gender>()">
+										<option></option>
+									</select>
+							</div>
+							</div>
+							<div class="filter-widget">
+								<h4>Select Specialist</h4>
+								<div>
+								<select name="department" class="form-control" aria-required="true" asp-items="ViewBag.departments">
+									<option></option>
+								</select>
+								</div>
+							</div>
+							<div class="btn-search">
+								<button type="submit" class="btn btn-block">Search</button>
+							</div>
+						</div>
+					</form>
+					<!-- /Search Filter -->
+
+				</div>
+				
+				<div class="col-md-12 col-lg-8 col-xl-9">
+				@if (Model.Count() != 0)
+				{
+					@foreach (var item in Model)
+					{
+						<!-- Doctor Widget -->
+						<div class="card">
+							<div class="card-body">
+								<div class="doctor-widget">
+									<div class="doc-info-left">
+										<div class="doctor-img">
+											<a href="doctor-profile.html">
+												@if (item.image != "")
+												{
+													<img src="~/uploads/@item.image" class="img-fluid" alt="User Image">
+												}
+												else
+												{
+													<img src="~/uploads/1.png" class="img-fluid" alt="User Image">
+
+												}
+											</a>
+										</div>
+										<div class="doc-info-cont">
+											<h4 class="doc-name"><a href="doctor-profile.html">Dr. @item.FirstName @item.LastName</a></h4>
+											<p class="doc-speciality">@item.Department  -  @item.Title</p>
+											<div class="clinic-details">
+												<p class="doc-location"><i class="p-1 fas fa-clinic-medical"></i>@item.Name</p>
+											</div>
+											<div class="clinic-details">
+												<p class="doc-location"><i class="p-1 fas fa-map-marker-alt"></i>@item.Address</p>
+											</div>
+											<div class="clinic-details">
+												<p class="doc-location"><i class="p-1 fas fa-phone"></i>@item.Phone</p>
+											</div>
+
+										</div>
+									</div>
+									<div class="doc-info-right">
+										<div class="clini-infos text-center">
+											<ul>
+												<li><i class="far fa-money-bill-alt"></i> @item.cost</li>
+											</ul>
+										</div>
+										<div class="clinic-booking">
+											<form asp-action="Profile">
+												<input type="hidden" name="doctor" value="@item.DoctorId" />
+												<input type="hidden" name="clinic" value="@item.ID" />
+												<input type="submit" class="apt-btn" value="View Profile" />
+											</form>
+											@if (SignInManager.IsSignedIn(User) && User.IsInRole("Patient"))
+											{
+												
+												<a asp-action="SetReservation" asp-area="User" asp-controller="Reservations" asp-route-clinic="@item.ID" class="apt-btn">Book Appointment</a>
+											}
+											else
+											{
+												<a asp-area="Identity" asp-page="/Account/Login" class="apt-btn">Book Appointment</a>
+											}
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- /Doctor Widget -->
+					}
+				}
+				<div class="load-more text-center">
+						@if (prev >= 0)
+						{
+						<form asp-action="AllDoctors2" asp-area="" asp-route-page="@prev" asp-controller="Home" >
+							@if(data!=null)
+							{
+								<input value="@data["location"]" type="hidden" name="location"/>
+								<input value="@data["doctor"]" type="hidden" name="doctor"/>
+							}
+							<input type="submit" class="btn btn-primary btn-sm"  value="previous" />
+
+							</form>
+						}
+						@if (Model.Count() ==3)
+						{
+						<form asp-action="AllDoctors2" asp-area="" asp-route-page="@next" asp-controller="Home" >
+							@if(data!=null)
+							{
+								<input value="@data["location"]" type="hidden" name="location" />
+								<input value="@data["doctor"]" type="hidden" name="doctor" />
+							}
+							<input type="submit" class="btn btn-primary btn-sm"  value="next" />
+
+						</form>
+						}
+
+					</div>
+				</div>
+			</div>
+	</div>
+
+</div>		

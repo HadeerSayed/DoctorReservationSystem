@@ -1,0 +1,54 @@
+﻿@model IEnumerable<models.Department>
+
+@{
+    ViewData["Title"] = "AllDepartments";
+}
+<div class="page-header">
+	<div class="row">
+		<div class="col">
+			<h3 class="page-title">Department</h3>
+			<ul class="breadcrumb">
+				<li class="breadcrumb-item">Dashboard</li>
+				<li class="breadcrumb-item active">Department</li>
+			</ul>
+		</div>
+	</div>
+</div>
+<div class="profile-menu">
+	<ul class="nav nav-tabs nav-tabs-solid">
+		<li class="nav-item">
+			<a asp-action="AddDepartment">Create New</a>
+		</li>
+	</ul>
+</div>
+@if (TempData["message"] != null)
+{
+	<p class="alert alert-danger text-center w-50">@TempData["message"] </p>
+}
+@if (Model.Count() != 0){
+<div class="tab-pane">
+	 @foreach (var item in Model)
+            {
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="card m-1">
+				<div class="card-body p-1">
+					<div class="row">
+						<p class="col-sm-2 text-muted text-sm-right my-1">Name</p>
+								<p class="col-sm-5  my-1"> @Html.DisplayFor(modelItem => item.Name)</p>
+								<p class="col-sm-5  my-1">
+							<a class="edit-link" asp-action="Edit" asp-route-id="@item.ID"><i style="color:green" class="fa fa-edit mr-1"></i>Edit</a>
+							<a class="edit-link" asp-action="Delete" asp-route-id="@item.ID"><i style="color:red" class="fa fa-trash mr-1"></i>Delete</a>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	}
+</div>
+}
+else
+{
+	<div class="alert alert-light w-75 text-center m-2 m-auto">Not Found</div>
+}
